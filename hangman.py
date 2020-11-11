@@ -1,7 +1,7 @@
 # Problem Set 2, hangman.py
-# Name: 
+# Name: Alexei Baida
 # Collaborators:
-# Time spent:
+# Time spent: 1 min
 
 # Hangman Game
 # -----------------------------------
