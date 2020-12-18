@@ -1,8 +1,14 @@
 # Problem Set 2, hangman.py
 # Name: Alexei Baida
 # Collaborators:
-# Time spent: 5 - 6 hours
+# Time spent: 1 min
 
+# Hangman Game
+# -----------------------------------
+# Helper code
+# You don't need to understand this helper code,
+# but you will have to know how to use the functions
+# (so be sure to read the docstrings!)
 import random
 import string
 
@@ -27,6 +33,7 @@ def load_words():
     return wordlist
 
 
+
 def choose_word(wordlist):
     """
     wordlist (list): list of words (strings)
@@ -35,7 +42,12 @@ def choose_word(wordlist):
     """
     return random.choice(wordlist)
 
+# end of helper code
 
+# -----------------------------------
+
+# Load the list of words into the variable wordlist
+# so that it can be accessed from anywhere in the program
 wordlist = load_words()
 
 
@@ -48,10 +60,9 @@ def is_word_guessed(secret_word, letters_guessed):
     returns: boolean, True if all the letters of secret_word are in letters_guessed;
       False otherwise
     '''
-    if set(secret_word) == set(secret_word) & set(letters_guessed):  # & means intersection of these 2 sets
-        return True
-    else:
-        return False
+    # FILL IN YOUR CODE HERE AND DELETE "pass"
+    pass
+
 
 
 def get_guessed_word(secret_word, letters_guessed):
@@ -61,13 +72,9 @@ def get_guessed_word(secret_word, letters_guessed):
     returns: string, comprised of letters, underscores (_), and spaces that represents
       which letters in secret_word have been guessed so far.
     '''
-    word = []
-    for letter in secret_word:
-        if letter in letters_guessed:
-            word += f'{letter} '
-        else:
-            word += '_ '
-    return ''.join(word)
+    # FILL IN YOUR CODE HERE AND DELETE "pass"
+    pass
+
 
 
 def get_available_letters(letters_guessed):
@@ -76,49 +83,10 @@ def get_available_letters(letters_guessed):
     returns: string (of letters), comprised of letters that represents which letters have not
       yet been guessed.
     '''
-    alphabet = string.ascii_lowercase
-    new_alphabet = []
-    for letter in alphabet:
-        if letter in letters_guessed:
-            new_alphabet += ''
-        else:
-            new_alphabet += f'{letter}'
-
-    return ''.join(new_alphabet)
-
-
-def victory(guesses, secret_word):
-    """
-    guesses: count of guesses left
-    secret_word: string, the word the user is guessing
-    returns: string with congratulations and total score
-    """
-    total_score = guesses * len(set(secret_word))
-    return f'\033[7mCongratulations! You won, the secret word was - {secret_word}\033[0m\n\033[7mYour total score is {total_score}\033[0m'
-
-
-def letter_check(guesses, warnings):
-    """
-    guesses: count of guesses left
-    warnings: count of warnings left
-    returns: confirmed letter
-    """
-    while 1:
-        letter = input('Enter your guess letter:   ')
-        if letter.isalpha():
-            break
-        else:
-            if warnings <= 0:
-                guesses -= 1
-                if guesses == 0:
-                    break
-            else:
-                warnings -= 1
-            print(
-                f'\033[31mYou must enter a letter of the Latin alphabet. Not a number or symbol. {warnings} warnings left\033[0m')
-        print(f'WARNINGS: {warnings}, GUESSES: {guesses}')
-    return letter
-
+    # FILL IN YOUR CODE HERE AND DELETE "pass"
+    pass
+    
+    
 
 def hangman(secret_word):
     '''
@@ -145,54 +113,19 @@ def hangman(secret_word):
     
     Follows the other limitations detailed in the problem write-up.
     '''
-    print('''
-    __  __                                           ___ ____ 
-   / / / /___ _____  ____ _____ ___  ____ _____     <  // __ \\
-  / /_/ / __ `/ __ \/ __ `/ __ `__ \/ __ `/ __ \    / // / / /
- / __  / /_/ / / / / /_/ / / / / / / /_/ / / / /   / // /_/ / 
-/_/ /_/\__,_/_/ /_/\__, /_/ /_/ /_/\__,_/_/ /_/   /_(_)____/  
-                  /____/                                      
-''')
-    print(f'I am thinking of a word that is {len(secret_word)} letters long.')
-    guesses = 6
-    letters_guessed = []
-    vowels = ('a', 'e', 'i', 'o', 'u')
-    warnings = 3
-    while 1:
-        if is_word_guessed(secret_word, letters_guessed):
-            print(victory(guesses, secret_word))
-            break
-        elif guesses <= 0:
-            print(f'\033[7mYou lost. Guesses exceeded. The secret word was - {secret_word}\033[0m')
-            break
-        else:
-            print(get_guessed_word(secret_word, letters_guessed))
-            print(f'You have {guesses} guesses left.')
-            available = get_available_letters(letters_guessed)
-            print(f'Available letters: {available}')
-            # letter = letter_check(guesses, warnings)
-            while 1:
-                letter = input('Enter your guess letter:   ')
-                if letter.isalpha():
-                    break
-                else:
-                    if warnings <= 0:
-                        guesses -= 1
-                        if guesses == 0:
-                            break
-                    else:
-                        warnings -= 1
-                    print(f'\033[31mYou must enter a letter of the Latin alphabet. Not a number or symbol. {warnings} warnings left\033[0m')
-            letters_guessed.append(letter.lower())
-            if letter.lower() in secret_word:
-                print('\033[1mRight guess!\033[0m')
-            elif letter.lower() in vowels and letter.lower() not in secret_word:
-                print('\033[1mWrong guess(\033[0m')
-                guesses -= 2
-            else:
-                print('\033[1mWrong guess(\033[0m')
-                guesses -= 1
-            print('--------------------------------------------')
+    # FILL IN YOUR CODE HERE AND DELETE "pass"
+    pass
+
+
+
+# When you've completed your hangman function, scroll down to the bottom
+# of the file and uncomment the first two lines to test
+#(hint: you might want to pick your own
+# secret_word while you're doing your own testing)
+
+
+# -----------------------------------
+
 
 
 def match_with_gaps(my_word, other_word):
@@ -208,6 +141,7 @@ def match_with_gaps(my_word, other_word):
     pass
 
 
+
 def show_possible_matches(my_word):
     '''
     my_word: string with _ characters, current guess of secret word
@@ -220,6 +154,7 @@ def show_possible_matches(my_word):
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
     pass
+
 
 
 def hangman_with_hints(secret_word):
@@ -253,6 +188,7 @@ def hangman_with_hints(secret_word):
     pass
 
 
+
 # When you've completed your hangman_with_hint function, comment the two similar
 # lines above that were used to run the hangman function, and then uncomment
 # these two lines and run this file to test!
@@ -260,13 +196,18 @@ def hangman_with_hints(secret_word):
 
 
 if __name__ == "__main__":
+    # pass
+
+    # To test part 2, comment out the pass line above and
+    # uncomment the following two lines.
+    
     secret_word = choose_word(wordlist)
     hangman(secret_word)
 
 ###############
-
-# To test part 3 re-comment out the above lines and
-# uncomment the following two lines.
-
-# secret_word = choose_word(wordlist)
-# hangman_with_hints(secret_word)
+    
+    # To test part 3 re-comment out the above lines and 
+    # uncomment the following two lines. 
+    
+    #secret_word = choose_word(wordlist)
+    #hangman_with_hints(secret_word)
