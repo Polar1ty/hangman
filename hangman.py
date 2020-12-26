@@ -126,15 +126,16 @@ def victory(guesses: int, secret_word: str):
     print(TextStyle.change_background_font(f'Your total score is {total_score}'))
 
 
-def letter_check(letter: str, guesses: int, warnings: int) -> tuple:
+def letter_check(letter: str, guesses: int, warnings: int, letters_guessed: list) -> tuple:
     """
     letter: entered letter by user
     guesses: count of guesses left
     warnings: count of warnings left
+    letters_guessed: list (of letters), which letters have been guessed so far
     returns: which consist of letter, updated count of guesses, updated count of warnings
     """
 
-    if letter.isalpha() and len(letter) == 1 or letter == HINT_SIGN:
+    if letter.isalpha() and len(letter) == 1 and letter not in letters_guessed or letter == HINT_SIGN:
         is_input_incorrect = False
         return letter, guesses, warnings, is_input_incorrect
     else:
@@ -145,19 +146,23 @@ def letter_check(letter: str, guesses: int, warnings: int) -> tuple:
                 return letter, guesses, warnings, is_input_incorrect
         else:
             warnings -= 1
-        if len(letter) != 1:
-            print(TextStyle.yellow(f'You must enter only 1 letter. {warnings} warnings left. {guesses} left.'))
+        if len(letter) != 1 and warnings > 0:
+            print(TextStyle.yellow(f'You must enter only 1 letter. You have {warnings} warnings and {guesses} guesses left.'))
+        elif warnings <= 0:
+            print(TextStyle.yellow(f'Oops! That is not a valid letter. You have no warnings left so you lose one guess'))
+        elif letter in letters_guessed:
+            print(TextStyle.yellow(f"Oops! You've already guessed that letter. You now have {warnings} warnings"))
         elif letter.isalpha() is False:
             print(TextStyle.yellow(
-                f'You must enter a letter of the Latin alphabet. Not a number or symbol. {warnings} warnings left {guesses} left.'))
+                f'You must enter a letter of the Latin alphabet. Not a number or symbol. You have {warnings} warnings and {guesses} guesses left.'))
         else:
             print(TextStyle.yellow(
-                f'Invalid value. Please enter 1 Latin letter. {warnings} warnings left {guesses} left.'))
+                f'Invalid value. Please enter 1 Latin letter. You have {warnings} warnings and {guesses} guesses left.'))
         is_input_incorrect = True
         return letter, guesses, warnings, is_input_incorrect
 
 
-def validate_letter(guesses, warnings):
+def validate_letter(guesses, warnings, letters_guessed):
     """
     guesses: count of guesses left
     warnings: count of warnings left
@@ -165,10 +170,10 @@ def validate_letter(guesses, warnings):
     """
     while 1:
         letter_entered = input('Enter your guess letter: ')
-        letter, guesses, warnings, is_input_incorrect = letter_check(letter_entered, guesses, warnings)
+        letter, guesses, warnings, is_input_incorrect = letter_check(letter_entered, guesses, warnings, letters_guessed)
         if not is_input_incorrect:
             break
-    return letter
+    return letter, guesses, warnings
 
 
 def letter_in_word(letter, guesses, letters_guessed):
@@ -253,7 +258,7 @@ def hangman(secret_word, hints=False):
             print(f'Available letters: {available}')
 
             # validate letter
-            letter = validate_letter(guesses, warnings)
+            letter, guesses, warnings = validate_letter(guesses, warnings, letters_guessed)
             letters_guessed.add(letter.lower())
 
             # check if user want hint
